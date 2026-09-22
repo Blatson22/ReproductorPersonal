@@ -6,6 +6,7 @@ app.db
 backend.log
 backend.err.log
 backend.pid
+tunnel*.log
 
 # Flutter/Dart (ya cubierto por mobile/.gitignore, por si acaso)
 mobile/build/

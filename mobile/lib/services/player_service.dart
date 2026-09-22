@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -53,6 +55,8 @@ class PlayerService extends ChangeNotifier {
       final streamUrl = await _api.getStreamUrl(track.id);
       await _player.setUrl(streamUrl);
       await _player.play();
+      // Historial best-effort: si falla (sin sesión, sin red) no interrumpe la reproducción.
+      unawaited(_api.addHistory(track).catchError((_) {}));
     } catch (e) {
       _error = 'No se pudo reproducir "${track.title}": $e';
     } finally {

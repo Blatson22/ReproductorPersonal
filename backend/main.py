@@ -15,11 +15,13 @@ caches ni las guardes en base de datos.
 from __future__ import annotations
 
 import time
+from pathlib import Path
 from typing import Optional
 
 import yt_dlp
 from fastapi import Depends, FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 import db
@@ -299,11 +301,13 @@ def clear_history(user=Depends(_current_user)):
     return {"status": "ok"}
 
 
-@app.get("/")
-def root():
-    return {"status": "ok", "service": "yt-audio-engine"}
-
-
 @app.get("/health")
 def health():
     return {"status": "ok", "time": time.time()}
+
+
+# Sirve la build web de Flutter (mobile/build/web) en la raíz. Se monta al
+# final para que las rutas de la API definidas arriba tengan prioridad.
+_WEB_DIR = Path(__file__).resolve().parent.parent / "mobile" / "build" / "web"
+if _WEB_DIR.is_dir():
+    app.mount("/", StaticFiles(directory=str(_WEB_DIR), html=True), name="web")
