@@ -1,0 +1,19 @@
+# Python / backend
+backend/venv/
+__pycache__/
+*.pyc
+app.db
+backend.log
+backend.err.log
+backend.pid
+
+# Flutter/Dart (ya cubierto por mobile/.gitignore, por si acaso)
+mobile/build/
+mobile/.dart_tool/
+.Flutter-plugins*
+.flutter-plugins-dependencies
+mobile/.idea/
+
+# OS / editor
+.DS_Store
+Thumbs.db
